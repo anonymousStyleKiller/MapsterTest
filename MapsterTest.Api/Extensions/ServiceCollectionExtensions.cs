@@ -1,6 +1,9 @@
 ﻿using System.Reflection;
+using Mapster;
+using MapsterMapper;
 using MapsterTest.Api.Contexts;
 using MapsterTest.Api.Interfaces;
+using MapsterTest.Api.Mappings;
 using MapsterTest.Api.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +27,20 @@ public static class ServiceCollectionExtensions
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(Assembly.GetExecutingAssembly());
+        services.AddSingleton(GetConfiguredMappingConfig());
+        services.AddScoped<IMapper, ServiceMapper>();
     }
-    
+
+    private static TypeAdapterConfig GetConfiguredMappingConfig()
+    {
+        var config = new TypeAdapterConfig
+        {
+                Compiler = expression => expression.Compile() 
+        };
+         new UserRegisterMapping().Register(config);
+        return config;
+    }
+
     public static void AddRepositories(this IServiceCollection services)
     {
         services.AddTransient(typeof(IRepositoryAsync<>), typeof(RepositoryAsyncAsync<>));

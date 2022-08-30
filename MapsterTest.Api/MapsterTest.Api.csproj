@@ -7,6 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Mapster" Version="7.3.0" />
+        <PackageReference Include="Mapster.Async" Version="2.0.0" />
+        <PackageReference Include="Mapster.Core" Version="1.2.0" />
+        <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
+        <PackageReference Include="Mapster.EFCore" Version="5.1.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
         <PackageReference Include="AutoMapper" Version="11.0.1" />
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />

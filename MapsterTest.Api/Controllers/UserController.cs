@@ -1,4 +1,5 @@
-﻿using MapsterTest.Api.Features.Users.Queries.GetAll;
+﻿using MapsterTest.Api.Features.Users.Queries.GetAllByAutoMapper;
+using MapsterTest.Api.Features.Users.Queries.GetAllByMapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +13,15 @@ public class UserController: ControllerBase
     private IMediator? _mediatorInstance;
     protected IMediator? Mediator => _mediatorInstance ??= HttpContext.RequestServices.GetService<IMediator>();
     
-    [HttpGet]
-    public async Task<IActionResult> GetAllUsers()
+    [HttpGet("/byAutoMapper")]
+    public async Task<IActionResult> GetAllUsersByAutoMapper()
     {
-        return Ok(await Mediator.Send(new GetAllUsersQuery()).ConfigureAwait(false));
+        return Ok(await Mediator.Send(new GetAllUsersByAutoMapperQuery()).ConfigureAwait(false));
+    }
+    
+    [HttpGet("/byMapster")]
+    public async Task<IActionResult> GetAllUsersByMapster()
+    {
+        return Ok(await Mediator.Send(new GetAllUsersBMapsterQuery()).ConfigureAwait(false));
     }
 }
