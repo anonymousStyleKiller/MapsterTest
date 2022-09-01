@@ -1,5 +1,5 @@
 ﻿using MapsterTest.Api.Interfaces;
-using MapsterTest.Api.Mock;
+using MapsterTest.Api.Services;
 
 namespace MapsterTest.Api.Extensions;
 

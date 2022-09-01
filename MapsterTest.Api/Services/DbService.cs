@@ -2,7 +2,7 @@
 using MapsterTest.Api.Interfaces;
 using MapsterTest.Api.Models;
 
-namespace MapsterTest.Api.Mock;
+namespace MapsterTest.Api.Services;
 
 public class DbService : IDbService
 {
@@ -17,8 +17,19 @@ public class DbService : IDbService
 
     public void Init()
     {
-        for (var i = 0; i < 100; i++) AddUsers(i);
+        ClearData(GetAllData());
+
+        for (var i = 0; i < 100; i++)
+        {
+            AddUsers(i);
+        }
+
         _db.SaveChanges();
+    }
+
+    private async Task<IEnumerable<User>> GetAllData()
+    {
+        return await _repositoryAsync.GetAllAsync();
     }
 
     private void AddUsers(int i)
@@ -27,15 +38,20 @@ public class DbService : IDbService
         {
             var newUser = new User
             {
-             Id=new Guid(),
-             Address = $"Address {i}",
-             City = $"City {i}",
-             Country = $"Country {i}",
-             CreatedOn = DateTime.Now,
-             FirstName = $"Name {i}",
-             LastName = $"Last Name {i}"
+                Id = new Guid(),
+                Address = $"Address {i}",
+                City = $"City {i}",
+                Country = $"Country {i}",
+                CreatedOn = DateTime.Now,
+                FirstName = $"Name {i}",
+                LastName = $"Last Name {i}"
             };
             await _repositoryAsync.AddAsync(newUser).ConfigureAwait(false);
         }, CancellationToken.None).GetAwaiter().GetResult();
+    }
+
+    private void ClearData(Task<IEnumerable<User>> getAllData)
+    {
+        _repositoryAsync.Delete(getAllData.Result);
     }
 }
