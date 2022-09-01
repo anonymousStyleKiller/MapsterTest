@@ -8,18 +8,17 @@ namespace MapsterTest.Api.Features.Users.Queries.GetAllByAutoMapper;
 
 public class GetAllUsersByAutoMapperQueryHandler : IRequestHandler<GetAllUsersByAutoMapperQuery, IEnumerable<UserResponse>>
 {
-    private readonly IRepositoryAsync<User> _repositoryAsync;
+    private readonly IRepository<User> _repository;
     private readonly IMapper _mapper;
 
-    public GetAllUsersByAutoMapperQueryHandler(IRepositoryAsync<User> repositoryAsync, IMapper mapper)
+    public GetAllUsersByAutoMapperQueryHandler(IRepository<User> repository, IMapper mapper)
     {
-        _repositoryAsync = repositoryAsync;
+        _repository = repository;
         _mapper = mapper;
     }
 
     public async Task<IEnumerable<UserResponse>> Handle(GetAllUsersByAutoMapperQuery request, CancellationToken cancellationToken)
     {
-        var users = await _repositoryAsync.GetAllAsync().ConfigureAwait(false);
-        return _mapper.Map<IList<UserResponse>>(users);
+      return _mapper.Map<IEnumerable<UserResponse>>(await _repository.GetAllAsync().ConfigureAwait(false));
     }
 }

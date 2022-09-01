@@ -9,18 +9,17 @@ namespace MapsterTest.Api.Features.Users.Queries.GetAllByMapster;
 
 public record GetAllUsersByMapsterQueryHandler : IRequestHandler<GetAllUsersBMapsterQuery, IEnumerable<UserResponse>>
 {
-    private readonly IRepositoryAsync<User> _repositoryAsync;
+    private readonly IRepository<User> _repository;
     
-
-    public GetAllUsersByMapsterQueryHandler(IRepositoryAsync<User> repositoryAsync)
+    public GetAllUsersByMapsterQueryHandler(IRepository<User> repository)
     {
-        _repositoryAsync = repositoryAsync;
+        _repository = repository;
       
     }
 
     public async Task<IEnumerable<UserResponse>> Handle(GetAllUsersBMapsterQuery request, CancellationToken cancellationToken)
     {
-        var users = await _repositoryAsync.GetAllAsync().ConfigureAwait(false);
-        return users.Adapt<IEnumerable<UserResponse>>();
+        var users = await _repository.GetAllAsync().ConfigureAwait(false);
+        return users.AsQueryable().ProjectToType<UserResponse>();
     }
 }

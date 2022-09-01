@@ -1,8 +1,9 @@
-﻿using MapsterTest.Api.Interfaces;
+﻿using System.ComponentModel.DataAnnotations;
+using MapsterTest.Api.Interfaces;
 
 namespace MapsterTest.Api.Models;
 
 public class Entity : IEntity
 {
-    public Guid Id { get; set; }
+    [Key] public Guid Id { get; set; }
 }

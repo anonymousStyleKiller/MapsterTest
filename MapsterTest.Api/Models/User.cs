@@ -1,5 +1,8 @@
-﻿namespace MapsterTest.Api.Models;
+﻿using Mapster;
 
+namespace MapsterTest.Api.Models;
+
+[AdaptTo("[name]Model"), GenerateMapper]
 public class User : Entity
 {
     public string? FirstName { get; set; }

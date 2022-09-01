@@ -43,7 +43,7 @@ public static class ServiceCollectionExtensions
 
     public static void AddRepositories(this IServiceCollection services)
     {
-        services.AddTransient(typeof(IRepositoryAsync<>), typeof(RepositoryAsync<>));
+        services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
     }
 
     internal static void AddSwagger(this IServiceCollection services)
@@ -67,5 +67,7 @@ public static class ServiceCollectionExtensions
             
         });
     }
+
+ 
 
 }

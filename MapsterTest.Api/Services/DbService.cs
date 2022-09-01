@@ -7,12 +7,12 @@ namespace MapsterTest.Api.Services;
 public class DbService : IDbService
 {
     private readonly BaseContext _db;
-    private readonly IRepositoryAsync<User> _repositoryAsync;
+    private readonly IRepository<User> _repository;
 
-    public DbService(BaseContext db, IRepositoryAsync<User> repositoryAsync)
+    public DbService(BaseContext db, IRepository<User> repository)
     {
         _db = db;
-        _repositoryAsync = repositoryAsync;
+        _repository = repository;
     }
 
     public void Init()
@@ -29,7 +29,7 @@ public class DbService : IDbService
 
     private async Task<IEnumerable<User>> GetAllData()
     {
-        return await _repositoryAsync.GetAllAsync();
+        return await _repository.GetAllAsync();
     }
 
     private void AddUsers(int i)
@@ -46,12 +46,12 @@ public class DbService : IDbService
                 FirstName = $"Name {i}",
                 LastName = $"Last Name {i}"
             };
-            await _repositoryAsync.AddAsync(newUser).ConfigureAwait(false);
+            await _repository.AddAsync(newUser).ConfigureAwait(false);
         }, CancellationToken.None).GetAwaiter().GetResult();
     }
 
     private void ClearData(Task<IEnumerable<User>> getAllData)
     {
-        _repositoryAsync.Delete(getAllData.Result);
+        _repository.Delete(getAllData.Result);
     }
 }
