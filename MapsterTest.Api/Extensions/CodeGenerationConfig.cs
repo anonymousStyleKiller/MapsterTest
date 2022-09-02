@@ -8,7 +8,13 @@ public class CodeGenerationConfig : ICodeGenerationRegister
 {
     public void Register(Mapster.CodeGenerationConfig config)
     {
+        
         config.AdaptTo("[name]")
+            .ForType<User>()
+            .ForType<UserResponse>();
+        
+                
+        config.GenerateMapper("[name]")
             .ForType<User>()
             .ForType<UserResponse>();
     }

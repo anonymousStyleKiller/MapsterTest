@@ -2,8 +2,10 @@
 using Mapster;
 using MapsterMapper;
 using MapsterTest.Api.Contexts;
+using MapsterTest.Api.Dto;
 using MapsterTest.Api.Interfaces;
 using MapsterTest.Api.Mappings;
+using MapsterTest.Api.Models;
 using MapsterTest.Api.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -21,23 +23,24 @@ public static class ServiceCollectionExtensions
                     .UseSqlServer(configuration
                         .GetConnectionString("DefaultConnection")));
     }
-    
-    
+
+
     public static void AddApplicationLayer(this IServiceCollection services)
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(Assembly.GetExecutingAssembly());
-        services.AddSingleton(GetConfiguredMappingConfig());
         services.AddScoped<IMapper, ServiceMapper>();
+        services.AddSingleton( GetConfiguredMappingConfig());
+      
     }
 
     private static TypeAdapterConfig GetConfiguredMappingConfig()
     {
-        var config = new TypeAdapterConfig
-        {
-                Compiler = expression => expression.Compile() 
-        };
-         new UserRegisterMapping().Register(config);
+        var config = new TypeAdapterConfig();
+        config.NewConfig<User, UserResponse>().Map(dest => dest, src => src);
+        TypeAdapterConfig.GlobalSettings.RequireExplicitMapping = true;
+        TypeAdapterConfig.GlobalSettings.RequireDestinationMemberSource = true;
+        TypeAdapterConfig.GlobalSettings.Compile();
         return config;
     }
 
@@ -64,10 +67,6 @@ public static class ServiceCollectionExtensions
                 Version = "v1",
                 Title = "MPortal",
             });
-            
         });
     }
-
- 
-
 }

@@ -1,7 +1,10 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Engines;
+using MapsterTest.Api.Dto;
 using MapsterTest.ConsoleUI.Mock;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using IHost = Microsoft.Extensions.Hosting.IHost;
 
 namespace MapsterTest.ConsoleUI.Benchmark;
 
@@ -30,10 +33,14 @@ public class MappingPerformance
     [Benchmark]
     public async Task GetDataFromAutoMapper()
     {
-        using var host = Hosting;
-        await host.StartAsync();
         var cient = ServiceProvider.GetRequiredService<MockCient>();
-        var x = await cient.GetInfoByAutoMapper();
-        await host.StopAsync();
+        await cient.GetInfoByAutoMapper().ConfigureAwait(false);
+    }
+    
+    [Benchmark]
+    public async Task GetDataFromMapster()
+    {
+        var cient = ServiceProvider.GetRequiredService<MockCient>();
+        await cient.GetInfoByMappster().ConfigureAwait(false);
     }
 }

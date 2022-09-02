@@ -7,5 +7,6 @@ class Program
     {
         BenchmarkRunner.Run<MappingPerformance>();
         Console.ReadLine();
+        
     }
 }
