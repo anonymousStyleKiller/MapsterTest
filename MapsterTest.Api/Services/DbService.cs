@@ -19,7 +19,7 @@ public class DbService : IDbService
     {
         ClearData(GetAllData());
 
-        for (var i = 0; i < 10000; i++)
+        for (var i = 0; i < 500; i++)
         {
             AddUsers(i);
         }
