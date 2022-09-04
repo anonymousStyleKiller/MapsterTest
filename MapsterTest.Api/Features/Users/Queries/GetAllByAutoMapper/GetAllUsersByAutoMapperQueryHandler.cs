@@ -19,6 +19,6 @@ public class GetAllUsersByAutoMapperQueryHandler : IRequestHandler<GetAllUsersBy
 
     public async Task<IEnumerable<UserResponse>> Handle(GetAllUsersByAutoMapperQuery request, CancellationToken cancellationToken)
     {
-      return _mapper.Map<IEnumerable<UserResponse>>(await _repository.GetAllAsync().ConfigureAwait(false));
+      return _mapper.Map<IEnumerable<UserResponse>>(await _repository.GetAllAsyncByEntityFrameworkAsync().ConfigureAwait(false));
     }
 }

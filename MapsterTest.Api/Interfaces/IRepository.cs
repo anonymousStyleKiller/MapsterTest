@@ -2,8 +2,9 @@
 
 public interface IRepository<T> where T : class
 {
-    public  Task<IEnumerable<T>> GetAllAsync();
-    public  Task<IEnumerable<T>> GetAllAsyncByDapper();
-    public Task<T> AddAsync(T entity);
-    public void Delete(IEnumerable<T> entity);
+    public  Task<IEnumerable<T>> GetAllAsyncByEntityFrameworkAsync();
+    public  Task<IEnumerable<T>> GetAllAsyncByDapperAsync();
+    public  Task<T> GetAsyncByDapper(string id);
+    public Task<T> AddAsyncByEntityFramework(T entity);
+    public void DeleteByEntityFramework(IEnumerable<T> entity);
 }

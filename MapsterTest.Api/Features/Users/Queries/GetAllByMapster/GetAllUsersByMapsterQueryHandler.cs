@@ -20,7 +20,7 @@ public record GetAllUsersByMapsterQueryHandler : IRequestHandler<GetAllUsersBMap
 
     public async Task<IEnumerable<UserResponse>> Handle(GetAllUsersBMapsterQuery request, CancellationToken cancellationToken)
     {
-        var users = await _repository.GetAllAsync().ConfigureAwait(false);
+        var users = await _repository.GetAllAsyncByEntityFrameworkAsync().ConfigureAwait(false);
         return _mapper.From(users).AdaptToType<IEnumerable<UserResponse>>();
     }
 }

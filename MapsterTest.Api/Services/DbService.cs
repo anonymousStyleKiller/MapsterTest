@@ -29,7 +29,7 @@ public class DbService : IDbService
 
     private async Task<IEnumerable<User>> GetAllData()
     {
-        return await _repository.GetAllAsync();
+        return await _repository.GetAllAsyncByEntityFrameworkAsync();
     }
 
     private void AddUsers(int i)
@@ -46,12 +46,12 @@ public class DbService : IDbService
                 FirstName = $"Name {i}",
                 LastName = $"Last Name {i}"
             };
-            await _repository.AddAsync(newUser).ConfigureAwait(false);
+            await _repository.AddAsyncByEntityFramework(newUser).ConfigureAwait(false);
         }, CancellationToken.None).GetAwaiter().GetResult();
     }
 
     private void ClearData(Task<IEnumerable<User>> getAllData)
     {
-        _repository.Delete(getAllData.Result);
+        _repository.DeleteByEntityFramework(getAllData.Result);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MapsterTest.Api.Features.Users.Queries.GetAllByAutoMapper;
-using MapsterTest.Api.Features.Users.Queries.GetAllByAutoMapperWitDapper;
+using MapsterTest.Api.Features.Users.Queries.GetAllByDapper;
 using MapsterTest.Api.Features.Users.Queries.GetAllByMapster;
+using MapsterTest.Api.Features.Users.Queries.GetByDapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,9 +27,16 @@ public class UserController: ControllerBase
         return Ok(await Mediator.Send(new GetAllUsersBMapsterQuery()).ConfigureAwait(false));
     }
 
+        
+    [HttpGet("/dapper/{id}")]
+    public async Task<IActionResult> GetUsersByDapper(string id)
+    {
+        return Ok(await Mediator.Send(new GetByDapperQuery(id)).ConfigureAwait(false));
+    }
+    
     [HttpGet("/byAutoMapperWithDapper")]
     public async Task<IActionResult> GetAllUsersByDapper()
     {
-        return Ok(await Mediator.Send(new GetAllByAutoMapperWitDapperQuery()).ConfigureAwait(false));
+        return Ok(await Mediator.Send(new GetAllByDapperQuery()).ConfigureAwait(false));
     }
 }
